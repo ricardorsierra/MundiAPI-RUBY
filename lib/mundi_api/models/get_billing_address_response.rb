@@ -36,19 +36,27 @@ module MundiApi
     # @return [String]
     attr_accessor :complement
 
+    # Line 1 for address
+    # @return [String]
+    attr_accessor :line_1
+
+    # Line 2 for address
+    # @return [String]
+    attr_accessor :line_2
+
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['street'] = 'street'
-        @_hash['number'] = 'number'
-        @_hash['zip_code'] = 'zip_code'
-        @_hash['neighborhood'] = 'neighborhood'
-        @_hash['city'] = 'city'
-        @_hash['state'] = 'state'
-        @_hash['country'] = 'country'
-        @_hash['complement'] = 'complement'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['street'] = 'street'
+      @_hash['number'] = 'number'
+      @_hash['zip_code'] = 'zip_code'
+      @_hash['neighborhood'] = 'neighborhood'
+      @_hash['city'] = 'city'
+      @_hash['state'] = 'state'
+      @_hash['country'] = 'country'
+      @_hash['complement'] = 'complement'
+      @_hash['line_1'] = 'line_1'
+      @_hash['line_2'] = 'line_2'
       @_hash
     end
 
@@ -59,7 +67,9 @@ module MundiApi
                    city = nil,
                    state = nil,
                    country = nil,
-                   complement = nil)
+                   complement = nil,
+                   line_1 = nil,
+                   line_2 = nil)
       @street = street
       @number = number
       @zip_code = zip_code
@@ -68,6 +78,8 @@ module MundiApi
       @state = state
       @country = country
       @complement = complement
+      @line_1 = line_1
+      @line_2 = line_2
     end
 
     # Creates an instance of the object from a hash.
@@ -83,6 +95,8 @@ module MundiApi
       state = hash['state']
       country = hash['country']
       complement = hash['complement']
+      line_1 = hash['line_1']
+      line_2 = hash['line_2']
 
       # Create object from extracted values.
       GetBillingAddressResponse.new(street,
@@ -92,7 +106,9 @@ module MundiApi
                                     city,
                                     state,
                                     country,
-                                    complement)
+                                    complement,
+                                    line_1,
+                                    line_2)
     end
   end
 end

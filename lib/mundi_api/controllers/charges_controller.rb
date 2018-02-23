@@ -324,15 +324,17 @@ module MundiApi
       _query_builder << '/charges'
       _query_builder = APIHelper.append_url_with_query_parameters(
         _query_builder,
-        'page' => page,
-        'size' => size,
-        'code' => code,
-        'status' => status,
-        'payment_method' => payment_method,
-        'customer_id' => customer_id,
-        'order_id' => order_id,
-        'created_since' => created_since,
-        'created_until' => created_until,
+        {
+          'page' => page,
+          'size' => size,
+          'code' => code,
+          'status' => status,
+          'payment_method' => payment_method,
+          'customer_id' => customer_id,
+          'order_id' => order_id,
+          'created_since' => created_since,
+          'created_until' => created_until
+        },
         array_serialization: Configuration.array_serialization
       )
       _query_url = APIHelper.clean_url _query_builder
@@ -354,6 +356,43 @@ module MundiApi
       # Return appropriate response type.
       decoded = APIHelper.json_deserialize(_context.response.raw_body)
       ListChargesResponse.from_hash(decoded)
+    end
+
+    # Updates the due date from a charge
+    # @param [String] charge_id Required parameter: Charge Id
+    # @param [UpdateChargeDueDateRequest] request Required parameter: Request
+    # for updating the due date
+    # @return GetChargeResponse response from the API call
+    def update_charge_due_date(charge_id,
+                               request)
+      # Prepare query url.
+      _query_builder = Configuration.base_uri.dup
+      _query_builder << '/Charges/{charge_id}/due-date'
+      _query_builder = APIHelper.append_url_with_template_parameters(
+        _query_builder,
+        'charge_id' => charge_id
+      )
+      _query_url = APIHelper.clean_url _query_builder
+
+      # Prepare headers.
+      _headers = {
+        'accept' => 'application/json',
+        'content-type' => 'application/json; charset=utf-8'
+      }
+
+      # Prepare and execute HttpRequest.
+      _request = @http_client.patch(
+        _query_url,
+        headers: _headers,
+        parameters: request.to_json
+      )
+      BasicAuth.apply(_request)
+      _context = execute_request(_request)
+      validate_response(_context)
+
+      # Return appropriate response type.
+      decoded = APIHelper.json_deserialize(_context.response.raw_body)
+      GetChargeResponse.from_hash(decoded)
     end
   end
 end

@@ -37,34 +37,37 @@ module MundiApi
     # @return [GetSubscriptionResponse]
     attr_accessor :subscription
 
-    # TODO: Write general description for this method
+    # Item name
+    # @return [String]
+    attr_accessor :name
+
+    # Item name
     # @return [Integer]
     attr_accessor :quantity
 
-    # TODO: Write general description for this method
+    # Item name
     # @return [Integer]
     attr_accessor :cycles
 
-    # TODO: Write general description for this method
+    # Item name
     # @return [DateTime]
     attr_accessor :deleted_at
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['id'] = 'id'
-        @_hash['description'] = 'description'
-        @_hash['status'] = 'status'
-        @_hash['created_at'] = 'created_at'
-        @_hash['updated_at'] = 'updated_at'
-        @_hash['pricing_scheme'] = 'pricing_scheme'
-        @_hash['discounts'] = 'discounts'
-        @_hash['subscription'] = 'subscription'
-        @_hash['quantity'] = 'quantity'
-        @_hash['cycles'] = 'cycles'
-        @_hash['deleted_at'] = 'deleted_at'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['id'] = 'id'
+      @_hash['description'] = 'description'
+      @_hash['status'] = 'status'
+      @_hash['created_at'] = 'created_at'
+      @_hash['updated_at'] = 'updated_at'
+      @_hash['pricing_scheme'] = 'pricing_scheme'
+      @_hash['discounts'] = 'discounts'
+      @_hash['subscription'] = 'subscription'
+      @_hash['name'] = 'name'
+      @_hash['quantity'] = 'quantity'
+      @_hash['cycles'] = 'cycles'
+      @_hash['deleted_at'] = 'deleted_at'
       @_hash
     end
 
@@ -76,6 +79,7 @@ module MundiApi
                    pricing_scheme = nil,
                    discounts = nil,
                    subscription = nil,
+                   name = nil,
                    quantity = nil,
                    cycles = nil,
                    deleted_at = nil)
@@ -87,6 +91,7 @@ module MundiApi
       @pricing_scheme = pricing_scheme
       @discounts = discounts
       @subscription = subscription
+      @name = name
       @quantity = quantity
       @cycles = cycles
       @deleted_at = deleted_at
@@ -114,6 +119,7 @@ module MundiApi
       end
       subscription = GetSubscriptionResponse.from_hash(hash['subscription']) if
         hash['subscription']
+      name = hash['name']
       quantity = hash['quantity']
       cycles = hash['cycles']
       deleted_at = DateTime.rfc3339(hash['deleted_at']) if hash['deleted_at']
@@ -127,6 +133,7 @@ module MundiApi
                                       pricing_scheme,
                                       discounts,
                                       subscription,
+                                      name,
                                       quantity,
                                       cycles,
                                       deleted_at)

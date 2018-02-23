@@ -457,11 +457,13 @@ module MundiApi
       _query_builder << '/customers'
       _query_builder = APIHelper.append_url_with_query_parameters(
         _query_builder,
-        'name' => name,
-        'document' => document,
-        'page' => page,
-        'size' => size,
-        'email' => email,
+        {
+          'name' => name,
+          'document' => document,
+          'page' => page,
+          'size' => size,
+          'email' => email
+        },
         array_serialization: Configuration.array_serialization
       )
       _query_url = APIHelper.clean_url _query_builder
@@ -646,8 +648,10 @@ module MundiApi
       )
       _query_builder = APIHelper.append_url_with_query_parameters(
         _query_builder,
-        'page' => page,
-        'size' => size,
+        {
+          'page' => page,
+          'size' => size
+        },
         array_serialization: Configuration.array_serialization
       )
       _query_url = APIHelper.clean_url _query_builder
@@ -688,8 +692,10 @@ module MundiApi
       )
       _query_builder = APIHelper.append_url_with_query_parameters(
         _query_builder,
-        'page' => page,
-        'size' => size,
+        {
+          'page' => page,
+          'size' => size
+        },
         array_serialization: Configuration.array_serialization
       )
       _query_url = APIHelper.clean_url _query_builder
@@ -730,8 +736,10 @@ module MundiApi
       )
       _query_builder = APIHelper.append_url_with_query_parameters(
         _query_builder,
-        'page' => page,
-        'size' => size,
+        {
+          'page' => page,
+          'size' => size
+        },
         array_serialization: Configuration.array_serialization
       )
       _query_url = APIHelper.clean_url _query_builder

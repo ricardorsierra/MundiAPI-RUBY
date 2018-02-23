@@ -25,14 +25,12 @@ module MundiApi
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['url'] = 'url'
-        @_hash['bank_tid'] = 'bank_tid'
-        @_hash['paid_at'] = 'paid_at'
-        @_hash['paid_amount'] = 'paid_amount'
-        @_hash = super().merge(@_hash)
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['url'] = 'url'
+      @_hash['bank_tid'] = 'bank_tid'
+      @_hash['paid_at'] = 'paid_at'
+      @_hash['paid_amount'] = 'paid_amount'
+      @_hash = super().merge(@_hash)
       @_hash
     end
 
@@ -46,6 +44,8 @@ module MundiApi
                    updated_at = nil,
                    attempt_count = nil,
                    max_attempts = nil,
+                   splits = nil,
+                   id = nil,
                    paid_at = nil,
                    paid_amount = nil,
                    next_attempt = nil,
@@ -64,6 +64,8 @@ module MundiApi
             updated_at,
             attempt_count,
             max_attempts,
+            splits,
+            id,
             next_attempt,
             transaction_type)
     end
@@ -83,6 +85,15 @@ module MundiApi
       updated_at = DateTime.rfc3339(hash['updated_at']) if hash['updated_at']
       attempt_count = hash['attempt_count']
       max_attempts = hash['max_attempts']
+      # Parameter is an array, so we need to iterate through it
+      splits = nil
+      unless hash['splits'].nil?
+        splits = []
+        hash['splits'].each do |structure|
+          splits << (GetSplitResponse.from_hash(structure) if structure)
+        end
+      end
+      id = hash['id']
       paid_at = DateTime.rfc3339(hash['paid_at']) if hash['paid_at']
       paid_amount = hash['paid_amount']
       next_attempt = DateTime.rfc3339(hash['next_attempt']) if
@@ -100,6 +111,8 @@ module MundiApi
                                           updated_at,
                                           attempt_count,
                                           max_attempts,
+                                          splits,
+                                          id,
                                           paid_at,
                                           paid_amount,
                                           next_attempt,

@@ -6,19 +6,17 @@ module MundiApi
   class CreateAccessTokenRequest < BaseModel
     # Minutes to expire the token
     # @return [Integer]
-    attr_accessor :esxpires_in
+    attr_accessor :expires_in
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['esxpires_in'] = 'esxpires_in'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['expires_in'] = 'expires_in'
       @_hash
     end
 
-    def initialize(esxpires_in = nil)
-      @esxpires_in = esxpires_in
+    def initialize(expires_in = nil)
+      @expires_in = expires_in
     end
 
     # Creates an instance of the object from a hash.
@@ -26,10 +24,10 @@ module MundiApi
       return nil unless hash
 
       # Extract variables from the hash.
-      esxpires_in = hash['esxpires_in']
+      expires_in = hash['expires_in']
 
       # Create object from extracted values.
-      CreateAccessTokenRequest.new(esxpires_in)
+      CreateAccessTokenRequest.new(expires_in)
     end
   end
 end

@@ -53,28 +53,51 @@ module MundiApi
     # @return [Array<String, String>]
     attr_accessor :metadata
 
+    # Indicates whether the order is closed
+    # @return [Boolean]
+    attr_accessor :closed
+
     # Checkout Payment Settings Response
-    # @return [List of GetCheckoutPaymentSettingsResponse]
+    # @return [List of GetCheckoutPaymentResponse]
     attr_accessor :checkouts
+
+    # Ip address
+    # @return [String]
+    attr_accessor :ip
+
+    # Session id
+    # @return [String]
+    attr_accessor :session_id
+
+    # Location
+    # @return [GetLocationResponse]
+    attr_accessor :location
+
+    # Device's informations
+    # @return [GetDeviceResponse]
+    attr_accessor :device
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['id'] = 'id'
-        @_hash['code'] = 'code'
-        @_hash['currency'] = 'currency'
-        @_hash['items'] = 'items'
-        @_hash['customer'] = 'customer'
-        @_hash['status'] = 'status'
-        @_hash['created_at'] = 'created_at'
-        @_hash['updated_at'] = 'updated_at'
-        @_hash['charges'] = 'charges'
-        @_hash['invoice_url'] = 'invoice_url'
-        @_hash['shipping'] = 'shipping'
-        @_hash['metadata'] = 'metadata'
-        @_hash['checkouts'] = 'checkouts'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['id'] = 'id'
+      @_hash['code'] = 'code'
+      @_hash['currency'] = 'currency'
+      @_hash['items'] = 'items'
+      @_hash['customer'] = 'customer'
+      @_hash['status'] = 'status'
+      @_hash['created_at'] = 'created_at'
+      @_hash['updated_at'] = 'updated_at'
+      @_hash['charges'] = 'charges'
+      @_hash['invoice_url'] = 'invoice_url'
+      @_hash['shipping'] = 'shipping'
+      @_hash['metadata'] = 'metadata'
+      @_hash['closed'] = 'closed'
+      @_hash['checkouts'] = 'checkouts'
+      @_hash['ip'] = 'ip'
+      @_hash['session_id'] = 'session_id'
+      @_hash['location'] = 'location'
+      @_hash['device'] = 'device'
       @_hash
     end
 
@@ -90,7 +113,12 @@ module MundiApi
                    invoice_url = nil,
                    shipping = nil,
                    metadata = nil,
-                   checkouts = nil)
+                   closed = nil,
+                   checkouts = nil,
+                   ip = nil,
+                   session_id = nil,
+                   location = nil,
+                   device = nil)
       @id = id
       @code = code
       @currency = currency
@@ -103,7 +131,12 @@ module MundiApi
       @invoice_url = invoice_url
       @shipping = shipping
       @metadata = metadata
+      @closed = closed
       @checkouts = checkouts
+      @ip = ip
+      @session_id = session_id
+      @location = location
+      @device = device
     end
 
     # Creates an instance of the object from a hash.
@@ -139,14 +172,20 @@ module MundiApi
       shipping = GetShippingResponse.from_hash(hash['shipping']) if
         hash['shipping']
       metadata = hash['metadata']
+      closed = hash['closed']
       # Parameter is an array, so we need to iterate through it
       checkouts = nil
       unless hash['checkouts'].nil?
         checkouts = []
         hash['checkouts'].each do |structure|
-          checkouts << (GetCheckoutPaymentSettingsResponse.from_hash(structure) if structure)
+          checkouts << (GetCheckoutPaymentResponse.from_hash(structure) if structure)
         end
       end
+      ip = hash['ip']
+      session_id = hash['session_id']
+      location = GetLocationResponse.from_hash(hash['location']) if
+        hash['location']
+      device = GetDeviceResponse.from_hash(hash['device']) if hash['device']
 
       # Create object from extracted values.
       GetOrderResponse.new(id,
@@ -161,7 +200,12 @@ module MundiApi
                            invoice_url,
                            shipping,
                            metadata,
-                           checkouts)
+                           closed,
+                           checkouts,
+                           ip,
+                           session_id,
+                           location,
+                           device)
     end
   end
 end

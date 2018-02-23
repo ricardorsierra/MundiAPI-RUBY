@@ -18,7 +18,7 @@ module MundiApi
 
     # Person type
     # @return [String]
-    attr_accessor :person_type
+    attr_accessor :type
 
     # Address
     # @return [CreateAddressRequest]
@@ -28,38 +28,43 @@ module MundiApi
     # @return [Array<String, String>]
     attr_accessor :metadata
 
-    # Metadata
+    # Código de referência do cliente no sistema da loja. Max: 52 caracteres
+    # @return [String]
+    attr_accessor :code
+
+    # Código de referência do cliente no sistema da loja. Max: 52 caracteres
     # @return [CreatePhonesRequest]
     attr_accessor :phones
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['name'] = 'name'
-        @_hash['email'] = 'email'
-        @_hash['document'] = 'document'
-        @_hash['person_type'] = 'person_type'
-        @_hash['address'] = 'address'
-        @_hash['metadata'] = 'metadata'
-        @_hash['phones'] = 'phones'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['name'] = 'name'
+      @_hash['email'] = 'email'
+      @_hash['document'] = 'document'
+      @_hash['type'] = 'type'
+      @_hash['address'] = 'address'
+      @_hash['metadata'] = 'metadata'
+      @_hash['code'] = 'code'
+      @_hash['phones'] = 'phones'
       @_hash
     end
 
     def initialize(name = nil,
                    email = nil,
                    document = nil,
-                   person_type = nil,
+                   type = nil,
                    address = nil,
                    metadata = nil,
+                   code = nil,
                    phones = nil)
       @name = name
       @email = email
       @document = document
-      @person_type = person_type
+      @type = type
       @address = address
       @metadata = metadata
+      @code = code
       @phones = phones
     end
 
@@ -71,19 +76,21 @@ module MundiApi
       name = hash['name']
       email = hash['email']
       document = hash['document']
-      person_type = hash['person_type']
+      type = hash['type']
       address = CreateAddressRequest.from_hash(hash['address']) if
         hash['address']
       metadata = hash['metadata']
+      code = hash['code']
       phones = CreatePhonesRequest.from_hash(hash['phones']) if hash['phones']
 
       # Create object from extracted values.
       UpdateCustomerRequest.new(name,
                                 email,
                                 document,
-                                person_type,
+                                type,
                                 address,
                                 metadata,
+                                code,
                                 phones)
     end
   end

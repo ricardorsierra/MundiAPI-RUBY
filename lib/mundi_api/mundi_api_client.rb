@@ -46,6 +46,18 @@ module MundiApi
       TokensController.instance
     end
 
+    # Singleton access to recipients controller.
+    # @return [RecipientsController] Returns the controller instance.
+    def recipients
+      RecipientsController.instance
+    end
+
+    # Singleton access to sellers controller.
+    # @return [SellersController] Returns the controller instance.
+    def sellers
+      SellersController.instance
+    end
+
     # Returns the configuration class for easy access.
     # @return [Configuration] Returns the actual configuration class.
     def config

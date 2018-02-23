@@ -35,19 +35,57 @@ module MundiApi
     # @return [GetBillingAddressResponse]
     attr_accessor :billing_address
 
+    # TODO: Write general description for this method
+    # @return [String]
+    attr_accessor :qr_code
+
+    # TODO: Write general description for this method
+    # @return [String]
+    attr_accessor :line
+
+    # TODO: Write general description for this method
+    # @return [String]
+    attr_accessor :pdf_password
+
+    # TODO: Write general description for this method
+    # @return [String]
+    attr_accessor :pdf
+
+    # TODO: Write general description for this method
+    # @return [String]
+    attr_accessor :paid_amount
+
+    # TODO: Write general description for this method
+    # @return [String]
+    attr_accessor :type
+
+    # TODO: Write general description for this method
+    # @return [DateTime]
+    attr_accessor :due_at
+
+    # TODO: Write general description for this method
+    # @return [DateTime]
+    attr_accessor :paid_at
+
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['url'] = 'url'
-        @_hash['bar_code'] = 'bar_code'
-        @_hash['nosso_numero'] = 'nosso_numero'
-        @_hash['bank'] = 'bank'
-        @_hash['document_number'] = 'document_number'
-        @_hash['instructions'] = 'instructions'
-        @_hash['billing_address'] = 'billing_address'
-        @_hash = super().merge(@_hash)
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['url'] = 'url'
+      @_hash['bar_code'] = 'bar_code'
+      @_hash['nosso_numero'] = 'nosso_numero'
+      @_hash['bank'] = 'bank'
+      @_hash['document_number'] = 'document_number'
+      @_hash['instructions'] = 'instructions'
+      @_hash['billing_address'] = 'billing_address'
+      @_hash['qr_code'] = 'qr_code'
+      @_hash['line'] = 'line'
+      @_hash['pdf_password'] = 'pdf_password'
+      @_hash['pdf'] = 'pdf'
+      @_hash['paid_amount'] = 'paid_amount'
+      @_hash['type'] = 'type'
+      @_hash['due_at'] = 'due_at'
+      @_hash['paid_at'] = 'paid_at'
+      @_hash = super().merge(@_hash)
       @_hash
     end
 
@@ -58,6 +96,12 @@ module MundiApi
                    document_number = nil,
                    instructions = nil,
                    billing_address = nil,
+                   qr_code = nil,
+                   line = nil,
+                   pdf_password = nil,
+                   pdf = nil,
+                   paid_amount = nil,
+                   type = nil,
                    gateway_id = nil,
                    amount = nil,
                    status = nil,
@@ -66,6 +110,10 @@ module MundiApi
                    updated_at = nil,
                    attempt_count = nil,
                    max_attempts = nil,
+                   splits = nil,
+                   id = nil,
+                   due_at = nil,
+                   paid_at = nil,
                    next_attempt = nil,
                    transaction_type = nil)
       @url = url
@@ -75,6 +123,14 @@ module MundiApi
       @document_number = document_number
       @instructions = instructions
       @billing_address = billing_address
+      @qr_code = qr_code
+      @line = line
+      @pdf_password = pdf_password
+      @pdf = pdf
+      @paid_amount = paid_amount
+      @type = type
+      @due_at = due_at
+      @paid_at = paid_at
 
       # Call the constructor of the base class
       super(gateway_id,
@@ -85,6 +141,8 @@ module MundiApi
             updated_at,
             attempt_count,
             max_attempts,
+            splits,
+            id,
             next_attempt,
             transaction_type)
     end
@@ -102,6 +160,12 @@ module MundiApi
       instructions = hash['instructions']
       billing_address = GetBillingAddressResponse.from_hash(hash['billing_address']) if
         hash['billing_address']
+      qr_code = hash['qr_code']
+      line = hash['line']
+      pdf_password = hash['pdf_password']
+      pdf = hash['pdf']
+      paid_amount = hash['paid_amount']
+      type = hash['type']
       gateway_id = hash['gateway_id']
       amount = hash['amount']
       status = hash['status']
@@ -110,6 +174,17 @@ module MundiApi
       updated_at = DateTime.rfc3339(hash['updated_at']) if hash['updated_at']
       attempt_count = hash['attempt_count']
       max_attempts = hash['max_attempts']
+      # Parameter is an array, so we need to iterate through it
+      splits = nil
+      unless hash['splits'].nil?
+        splits = []
+        hash['splits'].each do |structure|
+          splits << (GetSplitResponse.from_hash(structure) if structure)
+        end
+      end
+      id = hash['id']
+      due_at = DateTime.rfc3339(hash['due_at']) if hash['due_at']
+      paid_at = DateTime.rfc3339(hash['paid_at']) if hash['paid_at']
       next_attempt = DateTime.rfc3339(hash['next_attempt']) if
         hash['next_attempt']
       transaction_type = hash['transaction_type']
@@ -122,6 +197,12 @@ module MundiApi
                                        document_number,
                                        instructions,
                                        billing_address,
+                                       qr_code,
+                                       line,
+                                       pdf_password,
+                                       pdf,
+                                       paid_amount,
+                                       type,
                                        gateway_id,
                                        amount,
                                        status,
@@ -130,6 +211,10 @@ module MundiApi
                                        updated_at,
                                        attempt_count,
                                        max_attempts,
+                                       splits,
+                                       id,
+                                       due_at,
+                                       paid_at,
                                        next_attempt,
                                        transaction_type)
     end

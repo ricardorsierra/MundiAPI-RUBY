@@ -28,6 +28,18 @@ module MundiApi
     # @return [Array<String, String>]
     attr_accessor :metadata
 
+    # Splits
+    # @return [List of CreateSplitRequest]
+    attr_accessor :split
+
+    # Customer Id
+    # @return [String]
+    attr_accessor :customer_id
+
+    # Customer
+    # @return [CreateCustomerRequest]
+    attr_accessor :customer
+
     # Settings for bank transfer payment
     # @return [CreateBankTransferPaymentRequest]
     attr_accessor :bank_transfer
@@ -46,19 +58,20 @@ module MundiApi
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['payment_method'] = 'payment_method'
-        @_hash['credit_card'] = 'credit_card'
-        @_hash['boleto'] = 'boleto'
-        @_hash['currency'] = 'currency'
-        @_hash['voucher'] = 'voucher'
-        @_hash['metadata'] = 'metadata'
-        @_hash['bank_transfer'] = 'bank_transfer'
-        @_hash['gateway_affiliation_id'] = 'gateway_affiliation_id'
-        @_hash['amount'] = 'amount'
-        @_hash['checkout'] = 'checkout'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['payment_method'] = 'payment_method'
+      @_hash['credit_card'] = 'credit_card'
+      @_hash['boleto'] = 'boleto'
+      @_hash['currency'] = 'currency'
+      @_hash['voucher'] = 'voucher'
+      @_hash['metadata'] = 'metadata'
+      @_hash['split'] = 'split'
+      @_hash['customer_id'] = 'customer_id'
+      @_hash['customer'] = 'customer'
+      @_hash['bank_transfer'] = 'bank_transfer'
+      @_hash['gateway_affiliation_id'] = 'gateway_affiliation_id'
+      @_hash['amount'] = 'amount'
+      @_hash['checkout'] = 'checkout'
       @_hash
     end
 
@@ -68,6 +81,9 @@ module MundiApi
                    currency = nil,
                    voucher = nil,
                    metadata = nil,
+                   split = nil,
+                   customer_id = nil,
+                   customer = nil,
                    bank_transfer = nil,
                    gateway_affiliation_id = nil,
                    amount = nil,
@@ -78,6 +94,9 @@ module MundiApi
       @currency = currency
       @voucher = voucher
       @metadata = metadata
+      @split = split
+      @customer_id = customer_id
+      @customer = customer
       @bank_transfer = bank_transfer
       @gateway_affiliation_id = gateway_affiliation_id
       @amount = amount
@@ -98,6 +117,17 @@ module MundiApi
       voucher = CreateVoucherPaymentRequest.from_hash(hash['voucher']) if
         hash['voucher']
       metadata = hash['metadata']
+      # Parameter is an array, so we need to iterate through it
+      split = nil
+      unless hash['split'].nil?
+        split = []
+        hash['split'].each do |structure|
+          split << (CreateSplitRequest.from_hash(structure) if structure)
+        end
+      end
+      customer_id = hash['customer_id']
+      customer = CreateCustomerRequest.from_hash(hash['customer']) if
+        hash['customer']
       bank_transfer = CreateBankTransferPaymentRequest.from_hash(hash['bank_transfer']) if
         hash['bank_transfer']
       gateway_affiliation_id = hash['gateway_affiliation_id']
@@ -112,6 +142,9 @@ module MundiApi
                                currency,
                                voucher,
                                metadata,
+                               split,
+                               customer_id,
+                               customer,
                                bank_transfer,
                                gateway_affiliation_id,
                                amount,

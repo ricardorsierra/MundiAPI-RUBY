@@ -66,6 +66,10 @@ module MundiApi
     attr_accessor :shipping
 
     # TODO: Write general description for this method
+    # @return [Array<String, String>]
+    attr_accessor :metadata
+
+    # TODO: Write general description for this method
     # @return [DateTime]
     attr_accessor :due_at
 
@@ -83,28 +87,27 @@ module MundiApi
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['id'] = 'id'
-        @_hash['code'] = 'code'
-        @_hash['url'] = 'url'
-        @_hash['amount'] = 'amount'
-        @_hash['status'] = 'status'
-        @_hash['payment_method'] = 'payment_method'
-        @_hash['created_at'] = 'created_at'
-        @_hash['items'] = 'items'
-        @_hash['customer'] = 'customer'
-        @_hash['charge'] = 'charge'
-        @_hash['installments'] = 'installments'
-        @_hash['billing_address'] = 'billing_address'
-        @_hash['subscription'] = 'subscription'
-        @_hash['cycle'] = 'cycle'
-        @_hash['shipping'] = 'shipping'
-        @_hash['due_at'] = 'due_at'
-        @_hash['canceled_at'] = 'canceled_at'
-        @_hash['billing_at'] = 'billing_at'
-        @_hash['seen_at'] = 'seen_at'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['id'] = 'id'
+      @_hash['code'] = 'code'
+      @_hash['url'] = 'url'
+      @_hash['amount'] = 'amount'
+      @_hash['status'] = 'status'
+      @_hash['payment_method'] = 'payment_method'
+      @_hash['created_at'] = 'created_at'
+      @_hash['items'] = 'items'
+      @_hash['customer'] = 'customer'
+      @_hash['charge'] = 'charge'
+      @_hash['installments'] = 'installments'
+      @_hash['billing_address'] = 'billing_address'
+      @_hash['subscription'] = 'subscription'
+      @_hash['cycle'] = 'cycle'
+      @_hash['shipping'] = 'shipping'
+      @_hash['metadata'] = 'metadata'
+      @_hash['due_at'] = 'due_at'
+      @_hash['canceled_at'] = 'canceled_at'
+      @_hash['billing_at'] = 'billing_at'
+      @_hash['seen_at'] = 'seen_at'
       @_hash
     end
 
@@ -123,6 +126,7 @@ module MundiApi
                    subscription = nil,
                    cycle = nil,
                    shipping = nil,
+                   metadata = nil,
                    due_at = nil,
                    canceled_at = nil,
                    billing_at = nil,
@@ -142,6 +146,7 @@ module MundiApi
       @subscription = subscription
       @cycle = cycle
       @shipping = shipping
+      @metadata = metadata
       @due_at = due_at
       @canceled_at = canceled_at
       @billing_at = billing_at
@@ -179,6 +184,7 @@ module MundiApi
       cycle = GetPeriodResponse.from_hash(hash['cycle']) if hash['cycle']
       shipping = GetShippingResponse.from_hash(hash['shipping']) if
         hash['shipping']
+      metadata = hash['metadata']
       due_at = DateTime.rfc3339(hash['due_at']) if hash['due_at']
       canceled_at = DateTime.rfc3339(hash['canceled_at']) if
         hash['canceled_at']
@@ -201,6 +207,7 @@ module MundiApi
                              subscription,
                              cycle,
                              shipping,
+                             metadata,
                              due_at,
                              canceled_at,
                              billing_at,

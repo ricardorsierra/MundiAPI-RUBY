@@ -32,23 +32,46 @@ module MundiApi
     # @return [Array<String, String>]
     attr_accessor :metadata
 
+    # Metadata
+    # @return [Boolean]
+    attr_accessor :closed
+
     # Defines whether the order will go through anti-fraud
     # @return [Boolean]
     attr_accessor :antifraud_enabled
 
+    # Ip address
+    # @return [String]
+    attr_accessor :ip
+
+    # Session id
+    # @return [String]
+    attr_accessor :session_id
+
+    # Request's location
+    # @return [CreateLocationRequest]
+    attr_accessor :location
+
+    # Device's informations
+    # @return [CreateDeviceRequest]
+    attr_accessor :device
+
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['items'] = 'items'
-        @_hash['customer'] = 'customer'
-        @_hash['payments'] = 'payments'
-        @_hash['code'] = 'code'
-        @_hash['customer_id'] = 'customer_id'
-        @_hash['shipping'] = 'shipping'
-        @_hash['metadata'] = 'metadata'
-        @_hash['antifraud_enabled'] = 'antifraud_enabled'
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['items'] = 'items'
+      @_hash['customer'] = 'customer'
+      @_hash['payments'] = 'payments'
+      @_hash['code'] = 'code'
+      @_hash['customer_id'] = 'customer_id'
+      @_hash['shipping'] = 'shipping'
+      @_hash['metadata'] = 'metadata'
+      @_hash['closed'] = 'closed'
+      @_hash['antifraud_enabled'] = 'antifraud_enabled'
+      @_hash['ip'] = 'ip'
+      @_hash['session_id'] = 'session_id'
+      @_hash['location'] = 'location'
+      @_hash['device'] = 'device'
       @_hash
     end
 
@@ -59,7 +82,12 @@ module MundiApi
                    customer_id = nil,
                    shipping = nil,
                    metadata = nil,
-                   antifraud_enabled = nil)
+                   closed = true,
+                   antifraud_enabled = nil,
+                   ip = nil,
+                   session_id = nil,
+                   location = nil,
+                   device = nil)
       @items = items
       @customer = customer
       @payments = payments
@@ -67,7 +95,12 @@ module MundiApi
       @customer_id = customer_id
       @shipping = shipping
       @metadata = metadata
+      @closed = closed
       @antifraud_enabled = antifraud_enabled
+      @ip = ip
+      @session_id = session_id
+      @location = location
+      @device = device
     end
 
     # Creates an instance of the object from a hash.
@@ -98,7 +131,13 @@ module MundiApi
       shipping = CreateShippingRequest.from_hash(hash['shipping']) if
         hash['shipping']
       metadata = hash['metadata']
+      closed = hash['closed'] ||= true
       antifraud_enabled = hash['antifraud_enabled']
+      ip = hash['ip']
+      session_id = hash['session_id']
+      location = CreateLocationRequest.from_hash(hash['location']) if
+        hash['location']
+      device = CreateDeviceRequest.from_hash(hash['device']) if hash['device']
 
       # Create object from extracted values.
       CreateOrderRequest.new(items,
@@ -108,7 +147,12 @@ module MundiApi
                              customer_id,
                              shipping,
                              metadata,
-                             antifraud_enabled)
+                             closed,
+                             antifraud_enabled,
+                             ip,
+                             session_id,
+                             location,
+                             device)
     end
   end
 end

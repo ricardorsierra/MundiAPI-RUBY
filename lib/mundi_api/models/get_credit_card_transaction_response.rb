@@ -43,26 +43,29 @@ module MundiApi
     # @return [String]
     attr_accessor :acquirer_message
 
+    # Acquirer Return Code
+    # @return [String]
+    attr_accessor :acquirer_return_code
+
     # Number of installments
     # @return [Integer]
     attr_accessor :installments
 
     # A mapping from model property names to API property names.
     def self.names
-      if @_hash.nil?
-        @_hash = {}
-        @_hash['statement_descriptor'] = 'statement_descriptor'
-        @_hash['acquirer_name'] = 'acquirer_name'
-        @_hash['acquirer_affiliation_code'] = 'acquirer_affiliation_code'
-        @_hash['acquirer_tid'] = 'acquirer_tid'
-        @_hash['acquirer_nsu'] = 'acquirer_nsu'
-        @_hash['acquirer_auth_code'] = 'acquirer_auth_code'
-        @_hash['operation_type'] = 'operation_type'
-        @_hash['card'] = 'card'
-        @_hash['acquirer_message'] = 'acquirer_message'
-        @_hash['installments'] = 'installments'
-        @_hash = super().merge(@_hash)
-      end
+      @_hash = {} if @_hash.nil?
+      @_hash['statement_descriptor'] = 'statement_descriptor'
+      @_hash['acquirer_name'] = 'acquirer_name'
+      @_hash['acquirer_affiliation_code'] = 'acquirer_affiliation_code'
+      @_hash['acquirer_tid'] = 'acquirer_tid'
+      @_hash['acquirer_nsu'] = 'acquirer_nsu'
+      @_hash['acquirer_auth_code'] = 'acquirer_auth_code'
+      @_hash['operation_type'] = 'operation_type'
+      @_hash['card'] = 'card'
+      @_hash['acquirer_message'] = 'acquirer_message'
+      @_hash['acquirer_return_code'] = 'acquirer_return_code'
+      @_hash['installments'] = 'installments'
+      @_hash = super().merge(@_hash)
       @_hash
     end
 
@@ -75,6 +78,7 @@ module MundiApi
                    operation_type = nil,
                    card = nil,
                    acquirer_message = nil,
+                   acquirer_return_code = nil,
                    gateway_id = nil,
                    amount = nil,
                    status = nil,
@@ -83,6 +87,8 @@ module MundiApi
                    updated_at = nil,
                    attempt_count = nil,
                    max_attempts = nil,
+                   splits = nil,
+                   id = nil,
                    installments = nil,
                    next_attempt = nil,
                    transaction_type = nil)
@@ -95,6 +101,7 @@ module MundiApi
       @operation_type = operation_type
       @card = card
       @acquirer_message = acquirer_message
+      @acquirer_return_code = acquirer_return_code
       @installments = installments
 
       # Call the constructor of the base class
@@ -106,6 +113,8 @@ module MundiApi
             updated_at,
             attempt_count,
             max_attempts,
+            splits,
+            id,
             next_attempt,
             transaction_type)
     end
@@ -124,6 +133,7 @@ module MundiApi
       operation_type = hash['operation_type']
       card = GetCardResponse.from_hash(hash['card']) if hash['card']
       acquirer_message = hash['acquirer_message']
+      acquirer_return_code = hash['acquirer_return_code']
       gateway_id = hash['gateway_id']
       amount = hash['amount']
       status = hash['status']
@@ -132,6 +142,15 @@ module MundiApi
       updated_at = DateTime.rfc3339(hash['updated_at']) if hash['updated_at']
       attempt_count = hash['attempt_count']
       max_attempts = hash['max_attempts']
+      # Parameter is an array, so we need to iterate through it
+      splits = nil
+      unless hash['splits'].nil?
+        splits = []
+        hash['splits'].each do |structure|
+          splits << (GetSplitResponse.from_hash(structure) if structure)
+        end
+      end
+      id = hash['id']
       installments = hash['installments']
       next_attempt = DateTime.rfc3339(hash['next_attempt']) if
         hash['next_attempt']
@@ -147,6 +166,7 @@ module MundiApi
                                            operation_type,
                                            card,
                                            acquirer_message,
+                                           acquirer_return_code,
                                            gateway_id,
                                            amount,
                                            status,
@@ -155,6 +175,8 @@ module MundiApi
                                            updated_at,
                                            attempt_count,
                                            max_attempts,
+                                           splits,
+                                           id,
                                            installments,
                                            next_attempt,
                                            transaction_type)
